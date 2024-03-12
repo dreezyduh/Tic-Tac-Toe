@@ -1,0 +1,31 @@
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.playerTurn, .announcer{
+    text-align: center;
+    font-weight: 800;
+}
+
+.gameboard {
+    display: grid;
+    justify-content: center;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-auto-rows: 100px;
+
+}
+
+button {
+    background-color: white;
+    font-size: 30px;
+}
+
+.restartbtn {
+    margin: 10px;
+    align-self: center;
+}
