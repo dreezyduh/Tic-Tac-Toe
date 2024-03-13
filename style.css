@@ -29,3 +29,27 @@ button {
     margin: 10px;
     align-self: center;
 }
+
+li {
+    list-style: none;
+}
+
+input {
+    border-radius: 20px;
+    border-color: rgb(214, 214, 214);
+}
+
+fieldset:first-child:hover{
+    color: rgb(0, 110, 255);
+}
+
+fieldset:last-child:hover{
+    color: rgb(255, 103, 97);
+}
+
+fieldset {
+    font-size: 20px;
+    border-radius: 5px;
+    margin: 10px;
+    font-weight: 600;
+}

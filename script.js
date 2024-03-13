@@ -237,9 +237,9 @@ function GameController(playerOneName = `Player One`, playerTwoName = `Player Tw
 
 
 
-function screenController() {
+function screenController(event, player1, player2) {
+    const game = GameController(player1, player2);
     restartGame()
-    const game = GameController();
     const boardDiv = document.querySelector(`.gameboard`);
     const playerTurnDiv = document.querySelector(`.playerTurn`);
     const updateScreen = () => {
@@ -298,10 +298,48 @@ function restartGame() {
 
 function displayButtons() {
     const Board = document.querySelector(`.gameboard`);
+    const form = document.createElement(`form`);
+    const fieldset1 = document.createElement(`fieldset`);
+    const legend1 = document.createElement(`legend`);
+    const fieldset2 = document.createElement(`fieldset`);
+    const legend2 = document.createElement(`legend`);
+    const list1 = document.createElement(`ul`).appendChild(document.createElement(`li`));
+    const list2 = document.createElement(`ul`).appendChild(document.createElement(`li`));
+    const input1 = document.createElement(`input`);
+    const input2 = document.createElement(`input`);
     const startBtn = document.createElement(`button`);
+
+    input1.setAttribute(`type`, `text`);
+    input1.setAttribute(`class`, `player1`);
+    input1.setAttribute(`placeholder`, `Name`);
+    input2.setAttribute(`type`, `text`);
+    input2.setAttribute(`class`, `player2`);
+    input2.setAttribute(`placeholder`, `Name`);
+
+    legend1.textContent = `Player One:`;
+    legend2.textContent = `Player Two`;
     startBtn.textContent = `START GAME`;
-    startBtn.addEventListener(`click`, screenController);
+    
+    startBtn.addEventListener(`click`, sendNames);
+
+    Board.appendChild(form);
+    form.appendChild(fieldset1);
+    fieldset1.appendChild(legend1);
+    fieldset1.appendChild(list1);
+    list1.appendChild(input1);
+    form.appendChild(fieldset2);
+    fieldset2.appendChild(legend2);
+    fieldset2.appendChild(list2);
+    list2.appendChild(input2);
     Board.appendChild(startBtn);
+}
+
+function sendNames() {
+    const player1 = document.querySelector(`.player1`).value;
+    const player2 = document.querySelector(`.player2`).value;
+    if (player1 && player2 && player1 !== player2) {
+        screenController(event, player1, player2)
+    }
 }
 
 displayButtons();
