@@ -59,8 +59,24 @@ function throwError() {
     return {getError, addError}
 }
 
+function winRound() {
+    let win = 0;
+
+    const checkWin = function() {
+        return win
+    }
+
+    const setWin = function(value) {
+        return win = value;
+    }
+
+    return {checkWin, setWin}
+}
+
 function GameController(playerOneName = `Player One`, playerTwoName = `Player Two`) {
     const theBoard = Gameboard();
+
+    const win = winRound();
 
     const players = [
         {
@@ -74,10 +90,6 @@ function GameController(playerOneName = `Player One`, playerTwoName = `Player Tw
     ];
 
     const checkPosition = (function() {
-        function announceWin() {
-            const announcer = document.querySelector(`.announcer`);
-            announcer.textContent = `${getActivePlayer().name} wins!`;
-        }
         const diagonal = function(row, column) {
             const oneSymbol = theBoard.getBoard()[row][column].getValue();
             row = +row;
@@ -98,7 +110,7 @@ function GameController(playerOneName = `Player One`, playerTwoName = `Player Tw
                 }
             }
             if (oneSymbol === twoSymbol && oneSymbol === threeSymbol) {
-                announceWin()
+                return true
             }
         }
         const reverseDiagonal = function(row, column) {
@@ -121,7 +133,7 @@ function GameController(playerOneName = `Player One`, playerTwoName = `Player Tw
                 }
             }
             if (oneSymbol === twoSymbol && oneSymbol === threeSymbol) {
-                announceWin()
+                return true
             }
         }
         const rowLine = function(row, column) {
@@ -144,7 +156,7 @@ function GameController(playerOneName = `Player One`, playerTwoName = `Player Tw
                 }
             }
             if (oneSymbol === twoSymbol && oneSymbol === threeSymbol) {
-                announceWin()
+                return true
             }
         }
         const columnLine = function (row, column) {
@@ -168,12 +180,17 @@ function GameController(playerOneName = `Player One`, playerTwoName = `Player Tw
                 }
             }
             if (oneSymbol === twoSymbol && oneSymbol === threeSymbol) {
-                announceWin()
+                return true
             }
         }
         return {diagonal, reverseDiagonal, rowLine, columnLine};
     })()
 
+    function announceWin() {
+        const announcer = document.querySelector(`.announcer`);
+        announcer.textContent = `${getActivePlayer().name} wins!`;
+    }
+    
     let activePlayer = players[0];
 
     const switchPlayer = () => {
@@ -188,24 +205,28 @@ function GameController(playerOneName = `Player One`, playerTwoName = `Player Tw
     }
 
     const playRound = (row, column) => {
-        if (theBoard.getBoard()[row][column].getValue() != 0 && checkPosition.diagonal(row,column) === 1) {
-            const boardDiv = document.querySelector(`.gameboard`);
-            boardDiv.removeEventListener(`click`, clickHandlerBoard)
-            return
-        }
+        if (win.checkWin() === 1 || win.checkWin() === 2) return;
         theBoard.drawSymbol(row, column, getActivePlayer().symbol);
         if (theBoard.getError() === 1) {
             theBoard.addError(0);
             return
         }
         console.log(`Putting ${getActivePlayer().symbol} into row ${row} column ${column} by ${getActivePlayer().name}`);
-        checkPosition.diagonal(row,column);
-        checkPosition.reverseDiagonal(row, column);
-        checkPosition.rowLine(row,column);
-        checkPosition.columnLine(row,column);
-        console.log(checkPosition)
-        if (checkPosition.diagonal(row,column) === 1) {
-            return
+        if (checkPosition.diagonal(row,column) ||
+            checkPosition.reverseDiagonal(row, column) ||
+            checkPosition.rowLine(row,column) ||
+            checkPosition.columnLine(row,column)) {
+                announceWin()
+                win.setWin(1)
+                return
+        } else {
+                const emptyCells = theBoard.getBoard().map((rows) => rows.filter((columns) => columns.getValue() === 0));
+                if ((emptyCells.filter((rows) => rows.length > 0)) < 1) {
+                    const announcer = document.querySelector(`.announcer`);
+                    announcer.textContent = `It's a tie!`;
+                    win.setWin(2)
+                    return
+                };
         }
         switchPlayer();
         printRound();
@@ -263,8 +284,9 @@ function screenController() {
 }
 
 function restartGame() {
-    Gameboard()
     const Board = document.querySelector(`.container`);
+    const announce = document.querySelector(`.announcer`);
+    announce.textContent = ``;
     if (!document.querySelector(`.restartbtn`)) {
         const restartBtn = document.createElement(`button`);
         restartBtn.setAttribute(`class`, `restartbtn`)
