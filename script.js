@@ -239,7 +239,7 @@ function GameController(playerOneName = `Player One`, playerTwoName = `Player Tw
 
 function screenController(event, player1, player2) {
     const game = GameController(player1, player2);
-    restartGame()
+    restartGame(player1, player2)
     const boardDiv = document.querySelector(`.gameboard`);
     const playerTurnDiv = document.querySelector(`.playerTurn`);
     const updateScreen = () => {
@@ -283,7 +283,7 @@ function screenController(event, player1, player2) {
     updateScreen();
 }
 
-function restartGame() {
+function restartGame(player1, player2) {
     const Board = document.querySelector(`.container`);
     const announce = document.querySelector(`.announcer`);
     announce.textContent = ``;
@@ -292,7 +292,7 @@ function restartGame() {
         restartBtn.setAttribute(`class`, `restartbtn`)
         restartBtn.textContent = `NEW GAME`;
         Board.appendChild(restartBtn);
-        restartBtn.addEventListener(`click`, screenController);
+        restartBtn.addEventListener(`click`, screenController.bind(0, 0, player1, player2));
     }
 }
 
