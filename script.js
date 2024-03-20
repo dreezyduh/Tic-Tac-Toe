@@ -258,6 +258,8 @@ const restartButton = function(player1, player2) {
 function restartGame(player1, player2) {
     const announcer = document.querySelector(`.announcer`);
     announcer.textContent = ``
+    const boardDiv = document.querySelector(`.gameboard`);
+    boardDiv.replaceWith(boardDiv.cloneNode(true));
     printBoard(player1, player2);
 }
 
