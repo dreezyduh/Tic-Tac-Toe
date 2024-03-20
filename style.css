@@ -1,33 +1,71 @@
 .container {
     display: flex;
     flex-direction: column;
-}
 
-.playerTurn, .announcer{
-    text-align: center;
-    font-weight: 800;
 }
 
 .gameboard {
+    align-self: center;
     display: grid;
-    justify-content: center;
 }
 
-.row {
+.cellRow {
     display: grid;
     grid-template-columns: repeat(3, 100px);
     grid-auto-rows: 100px;
-
 }
 
-button {
-    background-color: white;
+.cellCol {
+    font-size: 40px;
+    background-color: rgb(255, 255, 255);
+}
+
+.cellCol:hover {
+    background-color: rgb(204, 204, 204);
+}
+
+.playerTurn {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.announcer {
+    text-align: center;
+    font-weight: 600;
     font-size: 30px;
 }
 
-.restartbtn {
-    margin: 10px;
+.startBtn {
+    background-color: rgb(255, 255, 255);
+    font-size: 40px;
+    border-radius: 5px;
+    width: max-content;
     align-self: center;
+}
+
+.startBtn:hover {
+    background-color: rgb(202, 202, 202);
+}
+
+fieldset {
+    border: 2px solid black;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+fieldset {
+    font-size: 20px;
+    border-radius: 5px;
+    font-weight: 600;
+}
+
+fieldset:first-child:hover {
+    color: rgb(128, 126, 255);
+}
+
+fieldset:nth-child(2):hover {
+    color: rgb(255, 77, 77);
 }
 
 li {
@@ -35,21 +73,16 @@ li {
 }
 
 input {
-    border-radius: 20px;
-    border-color: rgb(214, 214, 214);
+    border-radius: 10px;
+    border: 1px solid;
+    border-color: rgb(145, 145, 145);
+    width: 230px;
 }
 
-fieldset:first-child:hover{
-    color: rgb(0, 110, 255);
-}
-
-fieldset:last-child:hover{
-    color: rgb(255, 103, 97);
-}
-
-fieldset {
+.restartBtn {
+    margin: 20px;
+    align-self: center;
+    background-color: rgb(255, 255, 255);
     font-size: 20px;
-    border-radius: 5px;
-    margin: 10px;
-    font-weight: 600;
+    width: max-content;
 }
